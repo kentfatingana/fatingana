@@ -1,0 +1,2 @@
+divAge = joseAge / juanAge
+divAge

@@ -1,0 +1,2 @@
+mulAge = joseAge * juanAge
+mulAge
