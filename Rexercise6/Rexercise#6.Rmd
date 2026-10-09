@@ -1,0 +1,226 @@
+---
+title: "Rexercise#6_Fatingana"
+author: "Kent A. Fatingana"
+date: "2026-10-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Part A — Creating Data Frames
+
+```{r}
+name <- c("Ana", "Ben", "Cid", "Dex", "Eli")
+
+age <- c(20, 21, 19, 22, 20)
+
+passed <- c(TRUE, TRUE, FALSE, TRUE, FALSE)
+
+name
+age
+passed
+```
+
+
+```{r}
+students <- data.frame(name = name, age = age, passed = passed)
+print(students)
+```
+
+
+```{r}
+typeof(students$name)
+class(students$name)
+
+```
+
+
+```{r}
+courses <- data.frame(
+  course_code = c("IS101", "IS102", "IS103"),
+  units = c(3, 3, 2),
+  instructor = c("Dr. P. Reyes", "Dr. R. Santos", "Dr. S. Cruz")
+)
+print(courses)
+```
+
+
+Question #1
+
+You created students two different ways in concept: first from separate vectors, then courses directly inline.
+Both approaches produce the same kind of object.
+In your own words, explain why data.frame() requires every column argument to have the same length, and what error you would expect if they didn’t.
+Answer:The data.frame() is a function the every column to have a same length so that each row contains related information for one record.
+
+Question #2
+
+A data frame is often described as “a list of vectors of equal length.”
+Based on what you know about lists from a previous lab, explain why this description makes sense — specifically, why can each column hold a different data type while a single column cannot?
+Answer:The data frame is like a list its contain multiple column and each column is a vector that can have a different data types.
+
+Part B — Subsetting Data Frames
+
+```{r}
+students$age
+students[["age"]]
+students["age"] 
+```
+
+
+```{r}
+students[2, ]
+```
+
+
+```{r}
+students[3, "name"]
+```
+
+
+```{r}
+students[students$passed == TRUE, ]
+```
+
+
+```{r}
+students[students$passed == TRUE & students$age > 19, ]
+```
+
+
+Question #3
+```{r}
+class(students["age"])
+class(students$age)
+class(students[["age"]])
+```
+
+students["age"] and students$age both seem to give you the age column, but class() reveals they are different types of objects.
+Run class() on each and explain the difference, connecting it to what you learned about single vs. double brackets on lists in a previous lab.
+
+Answer:The class(students["age"]) returns "data.frame" because single brackets [ ] keep the column inside a data frame. In contrast, class(students$age) returns "numeric" because $ extracts the age column as a vector. This is similar to lists in R: single brackets [ ] return a sublist, while double brackets [[ ]] extract the individual element itself.
+
+
+
+Question #4
+
+In df-multiple-conditions, explain what the & operator is doing to the two logical vectors (students$passed == TRUE and students$age > 19) before that combined result is used to filter rows.
+What would change if you used | (OR) instead of & (AND)?
+Answer:The `&` (AND) operator compares the two logical vectors element by element and returns `TRUE` only when both conditions are true for the same student. This means the student must have passed and be older than 19 to be included in the filtered data frame.
+
+If we use `|` (OR) instead, a student will be included if they passed, are older than 19, or both. Therefore, more students may appear in the results because only one condition needs to be true.
+
+Part C — Data Frame Properties
+
+```{r}
+str(students)
+
+```
+
+
+```{r}
+dim(students)
+nrow(students)
+ncol(students)
+```
+
+```{r}
+names(students)
+colnames(students)
+```
+
+
+```{r}
+summary(students)
+```
+
+
+Question #5
+Run summary() on students. Notice that the numeric column (age) and the logical column (passed) are summarized very differently from the character column (name).
+Describe what kind of summary R produces for each of the three data types, and explain why a “mean” wouldn’t make sense for the name column.
+Answer:
+Character (`name`): R shows the length, class, and mode of the character column, or for a data frame summary, typically the character values' frequency information may be shown depending on the method.
+
+Numeric (`age`): R displays the minimum, maximum, median, mean, and the first and third quartiles.
+
+Logical (`passed`): R counts how many values are `TRUE` and how many are `FALSE`.
+
+A mean would not make sense for the `name` column because names are text, not numbers. You cannot meaningfully add names together or divide them to calculate an average.
+
+Question #6
+str() and summary() both describe a data frame, but they show different information.
+Based on what you observed, when would str() be more useful to you than summary(), and vice versa?
+Answer:The str() is more useful when I want to check the structure of a data frame, including the number of rows, columns, and the data type of each column. On the other hand,and the summary() is more useful when I want to understand the data's basic statistics, such as the mean, median, minimum, and maximum of numeric columns.`I should use the str() to check whether my data is stored correctly and Iuse the summary() to get a quick overview of the data values.
+
+Part D — Data Frame Operations
+
+```{r}
+students$year_level <- c(2, 3, 1, 4, 2 )
+print(students)
+```
+
+
+```{r}
+students$passed <- NULL
+print(students)
+```
+
+
+```{r}
+students <- students[order(students$age), ]
+print(students)
+```
+
+
+```{r}
+students <- students[order(students$age, decreasing = TRUE), ]
+print(students)
+```
+
+
+Question #7
+After removing the passed column, could you still run the filter from df-logical-filter (students$passed == TRUE)?
+Explain what happens and why keeping track of a data `frame’s current structure matters as you apply a sequence of operations to it.
+Answer:No, I could not run students$passed == TRUE correctly after removing the passed column because that column no longer exists in the students data frame. R returns NULL for students$passed, so the filter will not work as intended.
+
+When a column is removed  from the data frame it will no longer available for later operations so trying to filter that column will not work as expected.Keeping track of a data frame’s current structure is important because adding, removing, or sorting columns and rows changes the data you can use in subsequent steps. This helps prevent errors and ensures that each operation uses the correct data.
+
+
+Question #8
+
+order() does not sort the data frame directly — it returns a vector of row positions.
+Explain, step by step, how students[order(students$age), ] uses that position vector to reorder the whole data frame (all columns, not just age).
+Answer:First the student$age extract the age column from the data frame next is the order(student$age) returns the  row of position arranged from the youngest to oldest student. Then, students[order(students$age), ] uses those positions to rearrange the rows of the entire data frame
+
+Part E — Critical Thinking Challenge
+
+```{r}
+grades <- data.frame(
+  name = c("Ana", "Ben", "Cid", "Dex", "Eli"),
+  midterm = c(85, 78, 92, 88, 70),
+  final = c(90, 82, 95, 84, 75)
+)
+
+grades$average <- (grades$midterm + grades$final) / 2
+
+print(grades)
+
+```
+
+
+```{r}
+grades[grades$remarks == "Failed", c("name", "average")]
+```
+
+
+Question #9
+
+Suppose your instructor wants to know: “Which factor seems more responsible for a student’s final remark — a big drop between midterm and final, or a consistently low midterm score?”
+Using only the tools from this lab (subsetting, new columns, sorting), describe — in plain language, code optional — the steps you would take with grades to start investigating that question.
+Answer:First, I should add a new column to the grades to calculate the difference between each student's midterm and final scores. Next, I should sort the data by this difference to identify each students whose scores dropped significantly. I should also compare the midterm scores and final remarks by sorting the data to find students who consistently had low scores. Finally, I should examine the results to see whether students with large score drops or consistently low midterm scores are more likely to receive a failing remark.
+
+
+Conclusion: 
+In 3–4 sentences, summarize what a data frame is, how it relates to vectors and lists from earlier labs, and why it is R’s primary structure for real-world tabular data.
+Answer:The data frame in R is a two-dimensional structure that organizes data into rows and columns, similar to a table. It is like a list of equal-length vectors, where each column can contain a different data type, such as character, numeric, or logical values. Unlike a regular vector, which usually stores one data type, a data frame can combine different types of information in one object. Data frames are widely used in R because they make it easy to organize, analyze, filter, and summarize real-world data, such as student grades and records.
