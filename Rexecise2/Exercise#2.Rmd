@@ -93,15 +93,19 @@ Answer:Yes. typeof(), class(), and mode() can be different for the same R object
 ```{r}
 num_string <- "123"
 
-numeric("123")
-typeof("123")
-class("123")
-mode("123")
+# Convert the character string to a numeric value
+num_value <- as.numeric(num_string)
+
+# Check its type, class, and mode
+typeof(num_value)
+class(num_value)
+mode(num_value)
 ```
 
 
 ```{r}
-logical("123")
+as.logical(0)
+as.logical(1)
 ```
 
 
