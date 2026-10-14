@@ -12,17 +12,20 @@ knitr::opts_chunk$set(echo = TRUE)
 Part A: Creating Vectors: c(), seq(), rep()  
 ```{r}
 scores <- c(88, 92, 79, 95, 84)
+print(scores)
 
 subjects <- c("Math", "Science", "English", "History", "PE")
+print(subjects)
 ```
 
 
 ```{r}
 
 odds <- seq(1, 19, by = 2)
-
+print(odds)
 
 numbers <- seq(0, 1, length.out = 5)
+print(numbers)
 ```
 
 ```{r}
