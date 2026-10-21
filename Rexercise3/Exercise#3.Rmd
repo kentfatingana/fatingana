@@ -59,10 +59,10 @@ b.Find the reciprocal of age?
 Answer:The reciprocal of each value in age is calculated as 1 / age.
 
 c.new_age contains 69 data points, with 0 in the middle.
-Answer:new_age contains 69 data points, with 0 in the middle.
+Answer:The new_age contains 69 data points, with 0 in the middle.
 
 d: Find the minimum and the maximum value of age.
-Answer:thw minimum age is 8 and the maximum is 57.
+Answer:The minimum age is 8 and the maximum is 57.
 
 Question #2:
 
@@ -94,7 +94,7 @@ Question #4:
 a
 ```{r}
 vec_num <- seq(20, 60)
-sum(vec_num)
+print(vec_num)
 ```
 
 
@@ -115,7 +115,7 @@ length(vec_num)
 ```
 
 d: How many data points are there in vec_num?
-Answer:41
+Answer:Their has 41 data points in vec_num.
 
 
 part B;Subsetting (Accessing) Vectors
@@ -126,15 +126,13 @@ names(grades) <- c("Math", "Science", "English", "History", "PE")
 
 
 grades[3]
-# 79
 
 
 grades[c(1, 4)]
-# 88 95
+
 
 grades[c("Science", "PE")]
-# Science PE 
-#      92  84
+
 ```
 
 
@@ -212,9 +210,16 @@ z <- c(1, 2, 3, 4, 5, 6)
 z + c(1, 0, 1)
 ```
 
-
 Question #9: Now try adding z (length 6) to c(1, 0, 1) (length 3) instead. Does it work cleanly?
 Answer:yes its work cleanly because 6 is a multiple of 3 
+
+```{r}
+z <- c(1, 2, 3, 4, 5, 6)
+z + c(1, 0, 1 ,1)
+```
+
+Then try adding z to c(1, 0, 1, 1) (length 4). Compare the warning (or lack of one) in each case, and explain what condition determines whether R recycles silently versus with a warning.
+Answer:The R recycles silently when the length of the longer vector is exactly multiple in the shorter vector length,it give a warning when it is not exact multiple.  
 
 Part D — Lists: Creating and Subsetting
 ```{r}
