@@ -1,0 +1,203 @@
+---
+title: "Rexercise#7_Fatingana"
+author: "Kent A. Fatingana"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Question #1
+
+You are provided a survey summary (Figure 1) of 20 respondents, recording sex, father’s occupation, persons at home, siblings at school, and type of house — each stored as a numeric code. In this lab you will enter this real dataset into R, build a data frame, subset it, inspect its properties, recode the numeric codes into meaningful labels, and analyze it.
+
+Each part ends with Exercise questions — answer these in full sentences based on what you observe when you run the code, not just what you expect.
+
+Figure 1. Survey Summary
+Legend (from Figure 1):
+Sex: Male = 1, Female = 2
+Father’s Occupation: Farmer = 1, Driver = 2, Others = 3
+Type of Houses: Wood = 1, Semi-Concrete = 2, Concrete = 3
+
+A.Create a data frame using the Figure 1.
+
+```{r}
+respondent <- 1:20
+
+sex <- c(1, 2, 1, 2, 1, 2, 1, 2, 1, 2,
+         1, 2, 1, 2, 1, 2, 1, 2, 1, 2)
+
+father_occupation <- c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1,
+                       2, 3, 1, 2, 3, 1, 2, 3, 1, 2)
+
+type_of_house <- c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1,
+                   2, 3, 1, 2, 3, 1, 2, 3, 1, 2)
+
+length(respondent)
+length(sex)
+length(father_occupation)
+length(type_of_house)
+
+figure1 <- data.frame(
+  respondent,
+  sex,
+  father_occupation,
+  type_of_house
+)
+
+print(figure1)
+
+```
+
+
+
+```{r}
+persons_at_home <- c(4, 5, 3, 6, 4, 5, 3, 4, 6, 5,
+                     4, 3, 5, 6, 4, 3, 5, 4, 6, 3)
+
+siblings_at_school <- c(2, 3, 1, 2, 4, 3, 2, 1, 3, 2,
+                        1, 4, 2, 3, 1, 2, 3, 4, 2, 1)
+
+survey <- data.frame(
+  Respondent = respondent,
+  Sex = sex,
+  FathersOccupation = father_occupation,
+  PersonsAtHome = persons_at_home,
+  SiblingsAtSchool = siblings_at_school,
+  TypesOfHouses = type_of_house
+)
+
+print(survey)
+
+
+```
+
+A.Describe the data. Get the structure or the summary of the data.
+
+Answer:The survey data consists of 20 respondents and six variables:Respondent, Sex, Father's Occupation, Persons at Home, Siblings at School, and Types of Houses.The str() function shows that the stucture and data types of those variable, while the summary() is the function provides an overview of the data include the minimum,maximum,mean and frequency counts this function help us to understand and describe the collected survey informations.
+
+B.Check for the dimensions. How many rows and columns?
+
+Answer:The survey data contains 20 rows and 6 columns. The rows represent the 20 respondents, while the columns represent the six variables collected in the survey.
+
+c.Create factors for Sex, Father's Occupation and Types of Houses
+
+```{r}
+survey$Sex <- factor(survey$Sex,
+                     levels = c(1, 2),
+                     labels = c("Male", "Female"))
+
+survey$FathersOccupation <- factor(survey$FathersOccupation,
+                                   levels = c(1, 2, 3),
+                                   labels = c("Farmer", "Driver", "Others"))
+
+survey$TypesOfHouses <- factor(survey$TypesOfHouses,
+                               levels = c(1, 2, 3),
+                               labels = c("Wood", "Semi-Concrete", "Concrete"))
+
+str(survey)
+```
+
+
+D.Get the mean for all columns.
+
+```{r}
+sapply(survey[sapply(survey, is.numeric)], mean, na.rm = TRUE)
+```
+
+E.Extract the 1st five rows and then all the columns using subsetting functions. What is the output?
+
+```{r}
+survey[1:5, ]
+```
+Answer:The output displays the first five respondents and all six columns of the survey dataset. It shows that the information for each respondent, including Sex, Father's Occupation, Persons at Home, Siblings at School, and Types of Houses.
+
+F: Select the variable types of houses then store the vector that results as types_houses.
+
+```{r}
+
+types_houses <- survey$TypesOfHouses
+
+print(types_houses)
+```
+
+Answer:The TypesOfHouses variable was extracted from the survey data frame and stored in a new vector called types_houses.
+
+G.Select only all Males respondent that their father occupation was farmer.
+
+```{r}
+G <- survey[
+  survey$Sex == "Male" & survey$FathersOccupation == "Farmer",
+]
+
+
+print(G)
+```
+H.Select only all females respondent that have greater than or equal to 5 number of siblings attending school.
+
+```{r}
+survey$Sex <- as.character(survey$Sex)
+survey$SiblingsAtSchool <- as.numeric(as.character(survey$SiblingsAtSchool))
+
+
+H <- subset(
+  survey,
+  Sex == "Female" & SiblingsAtSchool >= 5
+)
+
+
+print(H)
+```
+
+Question #2: Before running data.frame(), you were asked to check that all six vectors had the same length. Why is this check necessary specifically for survey data like this, where every column
+represents an answer from the SAME 20 respondents?
+
+Answer:Checking that all six vectors have the same length is necessary because each column represents information from the same 20 respondents.
+
+
+Question #3:
+
+All five survey variables (Sex through TypesOfHouses) are stored as plain numbers (1, 2, 3, …), but they don’t all mean the same kind of thing. Looking at the legend, which of these columns are categories being represented by numbers (nominal data), and which are actual counts (e.g., a count of people)? Explain why treating a category like Sex as if it were a quantity to average would be misleading.
+
+Answer:The variables Sex, Father's Occupation, and TypesOfHouses are nominal data because their numbers represent categories or labels. Meanwhile, PersonsAtHome and SiblingsAtSchool are actual counts because they represent the number of people living in the household and the number of siblings attending school. Treating Sex as a numerical quantity and calculating its average would be misleading because Male (1) and Female (2) are only category codes, not actual measurements. Therefore, numerical averages are meaningful for count variables but not for nominal variables.
+
+Question #4:
+
+In subset-logical, if you filter on Sex == 1 using the raw numeric code rather than the word “Male”.
+
+Looking at the result, how could someone unfamiliar with the legend misinterpret this output?
+
+What problem does this illustrate about working with coded data before it has been labeled?
+
+Answer:If we using the sex== 1, the result will display only the repondents whose sex is coded as 1 which is the represents male according to legend.Someone unfamiliar with the legend might mistake the number 1 for an actual measurement or another category. This illustrates that coded data can be confusing and easily misinterpreted when the numbers are not properly labeled. Using factors with descriptive labels such as "Male" and "Female" makes the data easier to understand and analyze correctly.
+
+Question #5:
+
+Out of 20 respondents, how many are Male (Sex == 1)? Compute this using nrow() on your filtered result from subset-logical or sum(survey$Sex == 1). Does this small sample size change how confident you would be generalizing any pattern you find in this dataset to a larger population? Explain your reasoning.
+
+```{r}
+sum(survey$Sex == 1)
+```
+
+Answer:The number of male respondents is determined by counting how many have code 1 in the sec column.Since the survey only have 20 respondents I will be cautious about generalizing the resuls to a larger population because the sample size is relively small and may not represent everyone.The larger and more representative sample will provide more reliable result.
+
+Question #6:
+
+Run summary(). Every column shows numeric summary statistics (min, mean, max, etc.) – including Sex and TypesOfHouses, which are really categories, not quantities.
+
+```{r}
+summary(survey)
+```
+
+
+Explain why R doesn’t know, by itself, that these columns are categorical, and what this tells you about the difference between how data is stored versus what it means.
+
+Answer:The R does not automatically recognize these columns as categorical because their values are stored as numbers (1, 2, and 3). R interprets them as numerical data and performs calculations such as the mean, minimum, and maximum.This show that how data stored differently from what it actually represents.
+
+Question #7:
+
+Compare the mean of PersonsAtHome to the mean of Sex in your summary output. Which of these two means is actually meaningful to report to someone, and which one is not? Justify your answer.
+
+Answer:The mean of PersonsAtHome is meaningful because it represents tha average namuber of people living in each respondents household. while the mean of Sex is not meaningful because the values 1 and 2 are only code for male and female, not actualy nmeric measurement.therefore the mean of PersonAtHome is use to describe the survey and the the mean of Sex should not be interpreted as a meaningful average.
