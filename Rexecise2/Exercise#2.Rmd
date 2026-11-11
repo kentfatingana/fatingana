@@ -112,7 +112,7 @@ as.logical(1)
 ```{r}
 bad_string <- "hello123"
 
-numeric("hello123")
+try(numeric(bad_string))
 ```
 
 Question #5: When you ran the conversion-fail chunk, R produced NA and a warning instead of stopping with an error.
@@ -187,7 +187,7 @@ Answer:No it didnt cause error because the paste0() is automatically converts th
 
 ######Part E Critical Thinking Challenge
 ```{r}
-"5" + 5
+try("5" + 5)
 ```
 
 ```{r}

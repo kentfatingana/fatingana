@@ -1,4 +1,3 @@
----
 title: "Rexercise#3_fatingana"
 author: "Kent A. Fatingana"
 date: "2026-10-07"
@@ -43,12 +42,13 @@ rep(c("A", "B"), times = 2)
 Question #1:
 
 ```{r}
-
-min(age)
-max(age)
 age <- c(15, 28, 32, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22,
          37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 12, 42, 53,
          41, 51, 35, 24, 33, 8)
+
+min(age)
+max(age)
+
 new_age <- c(age, 0, age)
 ```
 
@@ -207,7 +207,9 @@ Answer:R’s recycling rule is repeated the short vector until it matched in the
 
 ```{r}
 z <- c(1, 2, 3, 4, 5, 6)
-z + c(1, 0, 1)
+short <- c(1, 0)
+
+z + short
 ```
 
 Question #9: Now try adding z (length 6) to c(1, 0, 1) (length 3) instead. Does it work cleanly?
@@ -215,10 +217,16 @@ Answer:yes its work cleanly because 6 is a multiple of 3
 
 ```{r}
 z <- c(1, 2, 3, 4, 5, 6)
-z + c(1, 0, 1 ,1)
+z + c(1, 0, 1)
 ```
 
 Then try adding z to c(1, 0, 1, 1) (length 4). Compare the warning (or lack of one) in each case, and explain what condition determines whether R recycles silently versus with a warning.
+
+```{r}
+z <- c(1, 2, 3, 4)
+z + c(1, 0, 1, 1)
+```
+
 Answer:The R recycles silently when the length of the longer vector is exactly multiple in the shorter vector length,it give a warning when it is not exact multiple.  
 
 Part D — Lists: Creating and Subsetting
@@ -320,4 +328,4 @@ Answer:I agree with using a list or, later, a data frame because keeping related
 Conclusion:
 
 In 3–4 sentences, summarize the key differences between vectors and lists in R, and explain when you would choose one data structure over the other.
-Answer:A vector in R stores elements of the same basic data type, such as numbers, characters, or logical values. A list can store different types of data, including vectors, numbers, text, and other lists, in one structure.I choose vector when i working with a simole collection of similaar values while I choose the list when i need to group the different types of values
+Answer:A vector in R stores elements of 
